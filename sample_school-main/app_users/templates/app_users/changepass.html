@@ -1,0 +1,64 @@
+{% extends 'base.html' %}
+{% load static %}
+{% load crispy_forms_tags %}
+{% block title %}Change Password{% endblock %}
+
+{% block image_block %}
+<header class="info-header">
+  <div id="page-intro" class="container-fluid d-flex align-items-center justify-content-center h-100">
+    <div class="row d-flex justify-content-center text-center">
+      <div class="col-md-10 text-white">
+        <!-- heading -->
+        <h2 class="display-4 font-weight-bold  p-5 " style="color:#ff5722;" >Change Password</h2>
+        <div class="row d-flex justify-content-center text-center">
+          <ul class="breadcrumb">
+            <li><a href="{% url 'index' %}">Home</a></li>
+            <li class="disabled-text" >Change Password</li>
+          </ul>
+        </div>
+
+        <!-- divider -->
+        <hr style="color:#ff5722;">
+
+        <!-- description -->
+        <h4 class="white-text my-4">Hello {{request.user}},
+          You can change password below !</h4>
+  </div>
+</header>
+{% endblock %}
+
+{% block content %}
+
+<section class="text-center mt-4">
+              <h2 class="mb-5 font-weight-bold" style="color:#ff5722;">Change Password</h2>
+              <!-- class row for description-->
+        {% if messages %}
+          {% for message in messages %}
+          <div class="alert alert-{{ message.tags }}" role="alert">{{ message }}</div>
+          {% endfor %}
+        {% endif %}
+              <div class="row d-flex justify-content-center mb-4">
+                <!-- class column -->
+                <div class="col-md-8">
+                  <p class="grey-text"></p>
+                </div>
+              </div>
+              <div class="row d-flex justify-content-center mb-4">
+                <form action="{% url 'change_pass' %}" method="post">
+                  <div class="form-group">
+                  {% csrf_token %}
+                  <div class="col-md-12">
+                
+                        {{changpass_form|crispy }}
+
+                        <div class="row justify-content-center">
+                          <div class="col-md-6">
+                          <input type="submit" value="Change Password" class="btn btn-primary btn-block">
+                          </div>
+                        </div>
+                  </div>
+                </div>
+                </form>
+              </div>
+</section>
+{%endblock%}

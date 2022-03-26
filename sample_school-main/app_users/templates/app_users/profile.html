@@ -1,0 +1,69 @@
+{% extends 'base.html' %}
+{% load static %}
+{% load crispy_forms_tags %}
+{% block title %}User Profile{% endblock %}
+
+{% block image_block %}
+<header class="info-header">
+  <div id="page-intro" class="container-fluid d-flex align-items-center justify-content-center h-100">
+    <div class="row d-flex justify-content-center text-center">
+      <div class="col-md-10 text-white">
+        <!-- heading -->
+        <h2 class="display-4 font-weight-bold  p-5 " style="color:#ff5722;" >User Profile</h2>
+        <div class="row d-flex justify-content-center text-center">
+          <ul class="breadcrumb">
+            <li><a href="{% url 'index' %}">Home</a></li>
+            <li class="disabled-text" >Profile</li>
+          </ul>
+        </div>
+
+        <!-- divider -->
+        <hr style="color:#ff5722;">
+
+        <!-- description -->
+        <h4 class="white-text my-4">Hello {{request.user}}!</h4>
+  </div>
+</header>
+{% endblock %}
+
+{% block content %}
+
+<section class="text-center mt-4">
+              <h2 class="mb-5 font-weight-bold" style="color:#ff5722;">Profile Details</h2>
+        {% if messages %}
+          {% for message in messages %}
+          <div class="alert alert-{{ message.tags }}" role="alert">{{ message }}</div>
+          {% endfor %}
+        {% endif %}
+        {% if user.is_superuser %}
+        <div class="row d-flex justify-content-center mb-4">
+        <div class="card o-hidden border-0 shadow-lg my-5 col-lg-5">
+          <div class="card-body">
+              <p><strong>UserName: </strong> {{user.username}} </p>
+              <p><strong>Email: </strong> {{user.email}} </p>
+              <p>For more information click link below !</p>
+              <a href="{% url 'admin:index' %}" class="btn btn-sm btn-primary shadow-sm">Admin page</a>
+          </div>
+        </div>
+       
+        {% else %}
+              <div class="row">
+                <div class="col-lg-2"></div>
+                <div class="col-lg-3 my-5">
+                  <img src="{{user.userprofileinfo.profile_pic.url|default_if_none:'#'}}" class="rounded float-right" height="300px" width="300px">
+                </div>
+                <div class="card o-hidden border-0 shadow-lg my-5 col-lg-5">
+                  <div class="card-body">
+                      <h2>{{user.first_name}} {{user.last_name}}</h2>
+                      <p><strong>UserName: </strong> {{user.username}} </p>
+                      <p><strong>Email: </strong> {{user.email}} </p>
+                      <p><strong>Bio: </strong> {{user.userprofileinfo.bio}} </p>
+                      <br>
+                      <a href="{% url 'profile-update' %}" class="btn btn-sm btn-primary shadow-sm">Update Profile</a>
+                  </div>
+                </div>
+              </div>
+            </div>
+        {%endif%}
+  </section>
+{%endblock%}
